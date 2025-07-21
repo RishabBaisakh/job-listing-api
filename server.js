@@ -1,10 +1,14 @@
 require("dotenv").config();
 const express = require("express");
 const { connectDB } = require("./config/database");
+const orderRoutes = require("./routes/orderRoutes");
 
 const port = process.env.PORT || 3000;
 
 const app = express();
+
+// Routes
+app.use("/api/orders", orderRoutes);
 
 // Connect to DB and start server
 connectDB()
