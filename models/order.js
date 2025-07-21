@@ -39,3 +39,7 @@ const orderSchema = mongoose.Schema({
     ref: "Company",
   },
 });
+
+const Order = mongoose.model("Order", orderSchema);
+
+module.exports = Order;
