@@ -26,7 +26,7 @@ const companySchema = mongoose.Schema({
   contactPhone: {
     type: String,
     required: [true, "Phone number is required."],
-    match: /^\+1\d{10}$/,
+    match: /^\d{10}$/,
   },
 });
 

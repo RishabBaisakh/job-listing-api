@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const orderSchema = mongoose.Schema({
+const jobSchema = mongoose.Schema({
   title: {
     type: String,
     required: [true, "Title is required."],
@@ -40,6 +40,6 @@ const orderSchema = mongoose.Schema({
   },
 });
 
-const Order = mongoose.model("Order", orderSchema);
+const Job = mongoose.model("Job", jobSchema);
 
-module.exports = Order;
+module.exports = Job;
