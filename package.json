@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/RishabBaisakh/job-listing-api#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^17.2.0",
     "eslint": "^9.31.0",
     "express": "^5.1.0",

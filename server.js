@@ -5,7 +5,24 @@ const routes = require("./routes");
 
 const port = process.env.PORT || 3000;
 
+// List of allowed origins
+const allowedOrigins = ["http://localhost:3000"];
+
 const app = express();
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
 
 // middlewares
 app.use(express.json());
