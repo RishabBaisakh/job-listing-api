@@ -7,7 +7,9 @@ const getAllJobs = async (req, res) => {
     return res.status(200).json(jobs);
   } catch (error) {
     console.error("Error fetching jobs:", error);
-    return res.status(500).json({ message: "Failed to fetch jobs" });
+    return res
+      .status(500)
+      .json({ message: "Failed to fetch jobs", details: error.message });
   }
 };
 
@@ -20,7 +22,9 @@ const getJobById = async (req, res) => {
     return res.status(200).json(job);
   } catch (error) {
     console.error("Error fetching job:", error);
-    return res.status(500).json({ message: "Failed to fetch job" });
+    return res
+      .status(500)
+      .json({ message: "Failed to fetch job", details: error.message });
   }
 };
 
@@ -58,7 +62,7 @@ async function createJob(req, res) {
   }
 }
 
-const updateJob = async (req, res) => {
+const updateJobById = async (req, res) => {
   try {
     const updatedJob = await Job.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -72,7 +76,9 @@ const updateJob = async (req, res) => {
     return res.status(200).json(updateJob);
   } catch (error) {
     console.error("Error updating job:", error);
-    return res.status(400).json({ message: error.message });
+    return res
+      .status(400)
+      .json({ message: "Failed to update job", details: error.message });
   }
 };
 
@@ -86,7 +92,9 @@ const deleteJob = async (req, res) => {
     return res.status(200).json({ message: "Job deleted successfully" });
   } catch (error) {
     console.error("Error deleting job:", error);
-    return res.status(500).json({ message: error.message });
+    return res
+      .status(500)
+      .json({ message: "Failed to delete job", details: error.message });
   }
 };
 
@@ -94,6 +102,6 @@ module.exports = {
   getAllJobs,
   getJobById,
   createJob,
-  updateJob,
+  updateJobById,
   deleteJob,
 };

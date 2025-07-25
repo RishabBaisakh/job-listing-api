@@ -8,6 +8,10 @@ const port = process.env.PORT || 5000;
 
 const app = express();
 
+app.use((req, res, next) => {
+  console.log("Incoming request origin:", req.headers.origin);
+  next();
+});
 app.use(cors());
 
 // middlewares

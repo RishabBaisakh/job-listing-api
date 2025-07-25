@@ -6,7 +6,9 @@ const getAllLocations = async (req, res) => {
     return res.status(200).json(locations);
   } catch (error) {
     console.error("Error fetching locations:", error);
-    return res.status(500).json({ message: "Failed to fetch locations" });
+    return res
+      .status(500)
+      .json({ message: "Failed to fetch locations", details: error.message });
   }
 };
 
