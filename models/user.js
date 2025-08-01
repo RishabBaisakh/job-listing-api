@@ -3,13 +3,21 @@ const { isEmail } = require("validator");
 const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
-  name: {
+  firstName: {
     type: String,
-    required: [true, "Name is required."],
+    required: [true, "First name is required."],
     trim: true,
     minLength: 2,
     maxLength: 50,
   },
+  lastName: {
+    type: String,
+    required: [true, "Last name is required."],
+    trim: true,
+    minLength: 2,
+    maxLength: 50,
+  },
+
   email: {
     type: String,
     required: [true, "Email is required."],
@@ -27,10 +35,6 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Company",
     required: [true, "Company is required."],
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
   },
 });
 

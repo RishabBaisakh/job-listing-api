@@ -28,6 +28,21 @@ const companySchema = mongoose.Schema({
     required: [true, "Phone number is required."],
     match: /^\d{10}$/,
   },
+  accessCode: {
+    type: String,
+    required: [true, "Access code is required."],
+    unique: true,
+    validate: {
+      validator: function (v) {
+        return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(
+          v
+        );
+      },
+      message: (props) => `${props.value} is not a valid UUIDv4!`,
+    },
+    minlength: 36,
+    maxlength: 36,
+  },
 });
 
 const Company = mongoose.model("Company", companySchema);
