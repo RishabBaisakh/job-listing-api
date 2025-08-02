@@ -3,4 +3,5 @@ export const ERROR_MESSAGES = {
   EMAIL_ALREADY_EXISTS: "Email already exists",
   MISSING_REQUIRED_FIELDS: "Missing required fields",
   INTERNAL_SERVER_ERROR: "Internal Server Error",
+  INVALID_USERNAME_AND_PASSWORD: "Invalid email or password",
 };
