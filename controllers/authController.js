@@ -99,8 +99,13 @@ const loginEmployer = async (req, res) => {
     }
 
     const token = createToken(user._id);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax",
+      maxAge: 3 * 24 * 60 * 60 * 1000,
+    });
     res.status(200).json({
-      token,
       user: {
         _id: user._id,
         firstName: user.firstName,
@@ -118,18 +123,25 @@ const loginEmployer = async (req, res) => {
   }
 };
 
-// const login = async (req, res) => {
-//   try {
+const logoutEmployer = (req, res) => {
+  res
+    .clearCookie("token")
+    .status(200)
+    .json({ message: "Logged out successfully" });
+};
 
-//     const token = createToken(user._id);
-//     res.status(200).json({
-//       message: "Login successful",
-//       token,
-//       user: { _id: user._id, name: user.name, email: user.email },
-//     });
-//   } catch (err) {
-//     res.status(500).json({ error: "Login failed" });
-//   }
-// };
+const getCurrentUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    res.status(200).json({ user });
+  } catch (err) {
+    res.status(401).json({ message: "User not found" });
+  }
+};
 
-module.exports = { registerEmployer, loginEmployer };
+module.exports = {
+  registerEmployer,
+  loginEmployer,
+  logoutEmployer,
+  getCurrentUser,
+};
