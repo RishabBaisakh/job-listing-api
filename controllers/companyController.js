@@ -1,3 +1,4 @@
+const { ERROR_MESSAGES } = require("../constants/errors");
 const Company = require("../models/company");
 
 const updateCompanyById = async (req, res) => {
@@ -9,13 +10,15 @@ const updateCompanyById = async (req, res) => {
     );
 
     if (!updatedCompany) {
-      return res.status(404).json({ message: "Company not found" });
+      return res
+        .status(404)
+        .json({ message: ERROR_MESSAGES.COMPANY_NOT_FOUND });
     }
 
     res.status(200).json(updatedCompany);
   } catch (error) {
     res.status(400).json({
-      message: "Failed to update company",
+      message: ERROR_MESSAGES.COMPANY_UPDATE_FAILED,
       details: error.message,
     });
   }

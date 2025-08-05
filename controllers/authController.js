@@ -3,6 +3,7 @@ const Company = require("../models/company");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { SUCCESS_MESSAGES } = require("../constants/success");
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -127,7 +128,7 @@ const logoutEmployer = (req, res) => {
   res
     .clearCookie("token")
     .status(200)
-    .json({ message: "Logged out successfully" });
+    .json({ message: SUCCESS_MESSAGES.LOGOUT });
 };
 
 const getCurrentUser = async (req, res) => {
@@ -135,7 +136,7 @@ const getCurrentUser = async (req, res) => {
     const user = await User.findById(req.user.id);
     res.status(200).json({ user });
   } catch (err) {
-    res.status(401).json({ message: "User not found" });
+    res.status(401).json({ message: ERROR_MESSAGES.USER_NOT_FOUND });
   }
 };
 

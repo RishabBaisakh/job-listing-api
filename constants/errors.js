@@ -6,5 +6,12 @@ export const ERROR_MESSAGES = {
   INVALID_USERNAME_AND_PASSWORD: "Invalid email or password",
   NOT_AUTHETICATED: "Not authenticated",
   INVALID_TOKEN: "Invalid token",
-  USER_NOT_FOUNDL: "User not found",
+  USER_NOT_FOUND: "User not found",
+  COMPANY_NOT_FOUND: "Company not found",
+  COMPANY_UPDATE_FAILED: "Failed to update company",
+  JOB_CREATE_FAILED: "Failed to create job",
+  JOB_NOT_FOUND: "Job not found",
+  JOB_UPDATE_FAILED: "Failed to update job",
+  JOB_DELETE_FAILED: "Failed to delete job",
+  LOCATION_FETCH_FAILED: "Failed to fetch locations",
 };

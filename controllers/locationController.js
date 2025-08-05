@@ -1,3 +1,4 @@
+const { ERROR_MESSAGES } = require("../constants/errors");
 const Location = require("../models/location");
 
 const getAllLocations = async (req, res) => {
@@ -8,7 +9,10 @@ const getAllLocations = async (req, res) => {
     console.error("Error fetching locations:", error);
     return res
       .status(500)
-      .json({ message: "Failed to fetch locations", details: error.message });
+      .json({
+        message: ERROR_MESSAGES.LOCATION_FETCH_FAILED,
+        details: error.message,
+      });
   }
 };
 
