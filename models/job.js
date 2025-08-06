@@ -14,7 +14,7 @@ const jobSchema = mongoose.Schema({
     enum: {
       values: ["full-time", "part-time", "contract", "internship"],
       message:
-        "Type must be one of full-time, part-time, contract or internship.",
+        "Type must be one of Full-time, part-time, contract or internship.",
     },
     default: "full-time",
     set: (v) => v.toLowerCase(), // normalize input

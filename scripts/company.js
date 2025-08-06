@@ -64,6 +64,5 @@ async function addAccessCodesToCompanies() {
     await mongoose.disconnect();
   }
 }
-
-addAccessCodesToCompanies();
+// addAccessCodesToCompanies();
 // insertCompanies();
