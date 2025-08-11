@@ -64,5 +64,54 @@ async function addAccessCodesToCompanies() {
     await mongoose.disconnect();
   }
 }
+
+async function updateFields() {
+  if (!MONGO_URI) {
+    console.error("MONGO_URI is not defined in .env file.");
+    return;
+  }
+
+  try {
+    await mongoose.connect(MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      writeConcern: {
+        w: 1,
+        j: true,
+        wtimeout: 1000,
+      },
+    });
+
+    console.log("Connected to MongoDB");
+
+    const docsWithEmail = await Company.countDocuments({
+      contactEmail: { $exists: true },
+    });
+    console.log(`Docs with contactEmail: ${docsWithEmail}`);
+
+    await Company.collection.dropIndex("contactEmail_1");
+    console.log("Dropped unique index on contactEmail");
+
+    await Company.collection.createIndex(
+      { contactEmail: 1 },
+      { unique: true, sparse: true }
+    );
+    console.log("Created sparse unique index on contactEmail");
+
+    const result = await Company.updateMany(
+      {},
+      { $unset: { contactEmail: "" } }
+    );
+    console.log("Updated the company fields:", result);
+
+    await mongoose.disconnect();
+    console.log("Disconnected from MongoDB");
+  } catch (err) {
+    console.error("Error updating companies:", err.message);
+    await mongoose.disconnect();
+  }
+}
+
 // addAccessCodesToCompanies();
 // insertCompanies();
+updateFields();

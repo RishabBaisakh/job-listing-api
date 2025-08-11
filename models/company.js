@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { isEmail } = require("validator");
+const { isURL } = require("validator");
 
 const companySchema = mongoose.Schema({
   name: {
@@ -16,17 +16,60 @@ const companySchema = mongoose.Schema({
     maxlength: [5000, "Description cannot exceed 5000 characters."],
     trim: true,
   },
-  contactEmail: {
-    type: String,
-    required: [true, "Email is required."],
-    unique: true,
-    lowercase: true,
-    validate: [isEmail, "Please enter a valid email"],
+  cover: {
+    filename: String,
+    path: String,
+    url: String,
+    mimType: {
+      type: String,
+      match: [
+        /^image\/(jpeg|png|webp)$/,
+        "Only JPEG, PNG, or WebP files are allowed.",
+      ],
+    },
+    // size: {
+    //   type: Number,
+    //   max: [5 * 1024 * 1024, "Image must be smaller than 5MB."],
+    // },
+    originlName: String,
   },
-  contactPhone: {
+  logo: {
+    filename: String,
+    path: String,
+    url: String,
+    mimType: {
+      type: String,
+      match: [
+        /^image\/(jpeg|png|webp)$/,
+        "Only JPEG, PNG, or WebP files are allowed.",
+      ],
+    },
+    // size: {
+    //   type: Number,
+    //   max: [5 * 1024 * 1024, "Image must be smaller than 5MB."],
+    // },
+    originlName: String,
+  },
+  industry: {
     type: String,
-    required: [true, "Phone number is required."],
-    match: /^\d{10}$/,
+    trim: true,
+    maxlength: 100,
+    required: [true, "Industry is required."],
+  },
+  website: {
+    type: String,
+    trim: true,
+    validate: {
+      validator: function (v) {
+        return v ? isURL(v) : true; // allow empty/undefined values
+      },
+      message: (props) => `${props.value} is not a valid URL!`,
+    },
+    required: false,
+  },
+  headquarters: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Location",
   },
   accessCode: {
     type: String,
