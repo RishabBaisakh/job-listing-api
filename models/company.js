@@ -88,6 +88,13 @@ const companySchema = mongoose.Schema({
   },
 });
 
+companySchema.set("toJSON", {
+  transform: (doc, ret) => {
+    delete ret.accessCode;
+    return ret;
+  },
+});
+
 const Company = mongoose.model("Company", companySchema);
 
 module.exports = Company;
