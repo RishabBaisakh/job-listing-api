@@ -9,6 +9,7 @@ export const ERROR_MESSAGES = {
   USER_NOT_FOUND: "User not found",
   COMPANY_NOT_FOUND: "Company not found",
   COMPANY_UPDATE_FAILED: "Failed to update company",
+  COMPANY_ID_REQUIRED: "Company ID is required",
   JOB_CREATE_FAILED: "Failed to create job",
   JOB_NOT_FOUND: "Job not found",
   JOB_UPDATE_FAILED: "Failed to update job",
