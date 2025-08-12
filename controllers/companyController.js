@@ -38,7 +38,9 @@ const fetchCompanyById = async (req, res) => {
     const company = await Company.findOne({ _id: id }).lean();
     delete company.accessCode;
 
-    const jobs = await Job.find({ company: company._id }).populate("location");
+    const jobs = await Job.find({ company: company._id })
+      .populate("location")
+      .populate("company");
 
     res.status(200).json({ company: { ...company, jobs: jobs || [] } });
   } catch (error) {
