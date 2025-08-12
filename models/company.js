@@ -67,7 +67,7 @@ const companySchema = mongoose.Schema({
     },
     required: false,
   },
-  headquarters: {
+  locarion: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Location",
   },

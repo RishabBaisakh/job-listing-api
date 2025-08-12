@@ -1,5 +1,6 @@
 const { ERROR_MESSAGES } = require("../constants/errors");
 const Company = require("../models/company");
+const Job = require("../models/job");
 
 const updateCompanyById = async (req, res) => {
   try {
@@ -34,8 +35,12 @@ const fetchCompanyById = async (req, res) => {
         missing: ["id"],
       });
     }
-    const company = await Company.findOne({ _id: id });
-    res.status(200).json({ company });
+    const company = await Company.findOne({ _id: id }).lean();
+    delete company.accessCode;
+
+    const jobs = await Job.find({ company: company._id }).populate("location");
+
+    res.status(200).json({ company: { ...company, jobs: jobs || [] } });
   } catch (error) {
     res.status(400).json({
       message: ERROR_MESSAGES.COMPANY_NOT_FOUND,
