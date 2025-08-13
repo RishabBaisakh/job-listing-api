@@ -38,6 +38,10 @@ const jobSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Company",
   },
+  datePosted: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Job = mongoose.model("Job", jobSchema);

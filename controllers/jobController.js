@@ -5,7 +5,9 @@ const { SUCCESS_MESSAGES } = require("../constants/success");
 
 const getAllJobs = async (req, res) => {
   try {
-    const jobs = await Job.find().populate("location company");
+    const jobs = await Job.find()
+      .sort({ createdAt: -1 })
+      .populate("location company");
     return res.status(200).json(jobs);
   } catch (error) {
     console.error("Error fetching jobs:", error);
@@ -97,12 +99,10 @@ const deleteJob = async (req, res) => {
       .json({ message: SUCCESS_MESSAGES.JOB_DELETED_SUCCESS });
   } catch (error) {
     console.error("Error deleting job:", error);
-    return res
-      .status(500)
-      .json({
-        message: ERROR_MESSAGES.JOB_DELETE_FAILED,
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: ERROR_MESSAGES.JOB_DELETE_FAILED,
+      error: error.message,
+    });
   }
 };
 

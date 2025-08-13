@@ -4,7 +4,7 @@ const Job = require("../models/job");
 
 const MONGO_URI = process.env.MONGO_URI;
 
-async function duplicateJobs() {
+async function updateJobTimestamp() {
   if (!MONGO_URI) {
     console.error("MONGO_URI is not defined in .env file.");
     return;
@@ -18,29 +18,27 @@ async function duplicateJobs() {
 
     console.log("Connected to MongoDB");
 
-    const jobs = await Job.find({});
+    const jobs = await Job.find({}).sort({ createdAt: -1 });
 
     if (!jobs.length) {
       console.log("No jobs found in the db");
       return;
     }
+    const bulkOps = jobs.map((job, index) => {
+      const newDate = new Date();
+      newDate.setDate(newDate.getDate() - index);
 
-    const duplicationFactor = 8;
-    let duplicatedJobs = [];
+      return {
+        updateOne: {
+          filter: { _id: job._id },
+          update: { $set: { datePosted: newDate } },
+        },
+      };
+    });
 
-    for (let i = 0; i < duplicationFactor; i++) {
-      jobs.forEach((job) => {
-        const jobObj = job.toObject();
-        delete jobObj._id;
-
-        duplicatedJobs.push(jobObj);
-      });
-    }
-    console.log("🚀 ~ duplicateJobs ~ duplicatedJobs:", duplicatedJobs.length);
-
-    const result = await Job.insertMany(duplicatedJobs, { ordered: false });
-    console.log("🚀 ~ duplicateJobs ~ result:", result);
-    console.log(`Inserted ${result.length} jobs`);
+    const result = await Job.bulkWrite(bulkOps);
+    console.log(`Updated ${result.modifiedCount} jobs`);
+    console.log("🚀 ~ updateJobTimestamp ~ jobs:", jobs);
 
     await mongoose.disconnect();
     console.log("Disconnected from MongoDB");
@@ -50,4 +48,4 @@ async function duplicateJobs() {
   }
 }
 
-duplicateJobs();
+updateJobTimestamp();

@@ -39,6 +39,7 @@ const fetchCompanyById = async (req, res) => {
     delete company.accessCode;
 
     const jobs = await Job.find({ company: company._id })
+      .sort({ createdAt: -1 })
       .populate("location")
       .populate("company");
 
